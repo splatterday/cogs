@@ -1,0 +1,50 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Testing
+/coverage
+
+# Next.js
+/.next/
+/out/
+
+# Production build output
+/build
+
+# Logs & Debugging
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+turbo-debug.log*
+
+# Misc system files
+.DS_Store
+Thumbs.db
+*.pem
+
+# Env files (can opt-in for committing if needed)
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+!.env.example  # Allow example env file
+
+# Vercel deployment settings
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Turborepo cache (if using Turborepo)
+.turbo/
