@@ -11,7 +11,7 @@ const Search = () => {
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        if (query.trim()) {
+        if (query.trim()) {``
             router.push(`?q=${encodeURIComponent(query)}`);
         }
     };
