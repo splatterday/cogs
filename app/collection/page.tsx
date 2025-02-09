@@ -1,16 +1,17 @@
 "use client"; // ✅ Must be a Client Component to fetch data
 
 import { useState, useEffect } from "react";
+import { DiscogsCollectionItem, DiscogsCollectionResponse } from "@/types/discogs.ts";
 
 const Collection = () => {
-    const [collection, setCollection] = useState<any[]>([]);
+    const [collection, setCollection] = useState<DiscogsCollectionItem[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchCollection = async () => {
             try {
                 const response = await fetch("/api/collection");
-                const data = await response.json();
+                const data: DiscogsCollectionResponse = await response.json();
                 setCollection(data.releases || []);
             } catch (error) {
                 console.error("Error fetching collection:", error);
@@ -26,11 +27,11 @@ const Collection = () => {
             {loading ? <p>Loading...</p> : (
                 <ul>
                     {collection.length > 0 ? (
-                        collection.map((item, index) => (
-                            <li key={index}>
+                        collection.map((item) => (
+                            <li key={item.id}>
                                 <strong>{item.basic_information.title}</strong> ({item.basic_information.year})
                                 {item.basic_information.cover_image && (
-                                    <img src={item.basic_information.cover_image} width="100" />
+                                    <img src={item.basic_information.cover_image} width="100" alt={item.basic_information.title} />
                                 )}
                             </li>
                         ))

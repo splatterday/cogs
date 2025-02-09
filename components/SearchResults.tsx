@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 const SearchResults = ({ query }: { query: string }) => {
-    const [albums, setAlbums] = useState<any[]>([]);
+    const [albums, setAlbums] = useState<Album[]>([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {

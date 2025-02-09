@@ -1,4 +1,4 @@
-import Search, { fetchAlbums } from "../server/Search"; // ✅ Correct named import
+import Search from "../server/Search"; // ✅ Correct named import
 
 
 export default async function Home() {

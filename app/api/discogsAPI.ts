@@ -16,10 +16,17 @@ export const searchAlbums = async (query: string) => {
         });
 
         return response.data;
-    } catch (error: any) {
-        console.error(`Discogs API Error: ${error.response?.data?.message || error.message}`);
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(`Discogs API Error: ${error.message}`);
+        } else if (typeof error === "object" && error !== null && "response" in error) {
+          const axiosError = error as { response?: { data?: { message?: string } } };
+          console.error(`Discogs API Error: ${axiosError.response?.data?.message || "Unknown error"}`);
+        } else {
+          console.error("An unknown error occurred", error);
+        }
         return null;
-    }
+    }      
 };
 
 export const fetchCollection = async () => {

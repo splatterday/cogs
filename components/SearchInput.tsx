@@ -1,6 +1,6 @@
 "use client"; // ✅ Makes this a Client Component
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SearchInput() {
