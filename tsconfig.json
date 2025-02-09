@@ -16,10 +16,11 @@
     "baseUrl": ".",  
     "paths": {
       "@/*": ["./*"],
-      "@components/*": ["components/*"]
+      "@components/*": ["components/*"],
+      "@types/": ["types/*"]
     },
     "plugins": [{ "name": "next" }]
   },
-  "include": ["**/*.ts", ".next/types/**/*.ts"],
+  "include": ["app", "types", "**/*.ts", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
