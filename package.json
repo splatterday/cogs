@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "vercel-build": "next build"
+    "vercel-build": "npm install --include=dev && next build"
   },
   "dependencies": {
     "@prisma/client": "^6.2.1",
