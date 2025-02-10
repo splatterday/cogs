@@ -1,4 +1,4 @@
-import { Navigation } from "../Navigation/Navigation";
+import { Navigation } from "../Navigation/Navigation.tsx";
 import "./Header.scss";
 
 export const Header = () => {

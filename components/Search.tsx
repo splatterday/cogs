@@ -1,10 +1,10 @@
-"use client"; // ✅ Ensure it's a Client Component
+"use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import SearchResults from "@components/SearchResults";
+import { useRouter, useSearchParams } from "next/navigation.js";
+import SearchResults from "./SearchResults.tsx";
 
-const Search = () => {
+export default function Search() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [query, setQuery] = useState(searchParams.get("q") || "");
@@ -28,11 +28,8 @@ const Search = () => {
                 />
                 <button type="submit">Search</button>
             </form>
-
-            {/* ✅ Pass the query to the new SearchResults component */}
             <SearchResults query={query} />
         </div>
     );
 };
 
-export default Search;

@@ -6,21 +6,47 @@
     "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "types": ["node", "react", "react-dom", "next"],
     "allowJs": true,
+    "allowImportingTsExtensions": true,
     "skipLibCheck": true,
     "noEmit": true,
     "incremental": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "baseUrl": ".",  
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@components/*": ["./components/*"],
-      "@types/": ["./types/*"]
+      "@/*": [
+        "./*"
+      ],
+      "@api/*": [
+        "./api/*"
+      ],
+      "@components/*": [
+        "./components/*"
+      ],
+      "@types/": [
+        "./types/*"
+      ]
     },
-    "plugins": [{ "name": "next" }]
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["app", "types", "**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "**/*.ts",
+    "app",
+    "types",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -1,7 +1,7 @@
 "use client"; // ✅ Must be a Client Component to fetch data
 
 import { useState, useEffect } from "react";
-import { DiscogsCollectionItem, DiscogsCollectionResponse } from "../../types/discogs.js";
+import { DiscogsCollectionItem, DiscogsCollectionResponse } from "../../types/discogs.ts";
 
 const Collection = () => {
     const [collection, setCollection] = useState<DiscogsCollectionItem[]>([]);

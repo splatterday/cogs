@@ -1,4 +1,4 @@
-import Search from "../server/Search"; // ✅ Correct named import
+import Search from "@components/Search.tsx";
 
 
 export default async function Home() {
