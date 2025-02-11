@@ -1,8 +1,7 @@
 export const Navigation = () => {
     return (
         <h2>
-            blah blah blah
-
+            HOME COLLECTION WANTLIST
         </h2>
     )
 }

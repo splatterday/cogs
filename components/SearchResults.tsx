@@ -1,4 +1,4 @@
-"use client"; // ✅ Ensures dynamic updates without full reloads
+"use client";
 
 import { useState, useEffect } from "react";
 import { Album } from "../types/discogs";
@@ -22,7 +22,7 @@ const SearchResults = ({ query }: { query: string }) => {
             setLoading(false);
         };
         fetchAlbums();
-    }, [query]); // ✅ Only triggers when `query` changes
+    }, [query]); // Only triggers when `query` changes
 
     return (
         <div>
@@ -33,7 +33,6 @@ const SearchResults = ({ query }: { query: string }) => {
                             <li key={index}>
                                 <strong>{album.title}</strong> ({album.year})
                                 {album.cover_image &&
-                                    // <img src={album.cover_image} width="100" />
                                     <Image 
                                         src={album.cover_image} 
                                         alt={album.title} 
