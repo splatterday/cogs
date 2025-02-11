@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { searchAlbums } from "@api/discogsAPI.ts";
+import { searchAlbums } from "./api/discogsAPI";
 dotenv.config();
 
 const app = express();

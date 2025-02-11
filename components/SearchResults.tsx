@@ -1,7 +1,7 @@
 "use client"; // ✅ Ensures dynamic updates without full reloads
 
 import { useState, useEffect } from "react";
-import { Album } from "@/types/discogs.ts";
+import { Album } from "../types/discogs";
 
 const SearchResults = ({ query }: { query: string }) => {
     const [albums, setAlbums] = useState<Album[]>([]);

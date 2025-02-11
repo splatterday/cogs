@@ -1,4 +1,4 @@
-import { createUser, getUser } from '@/db.ts';
+import { createUser, getUser } from './db.js';
 
 (async () => {
     await createUser("12345", "test-token", "John Doe", "https://example.com/avatar.jpg");

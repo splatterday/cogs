@@ -1,7 +1,8 @@
 "use client"; // ✅ Must be a Client Component to fetch data
 
 import { useState, useEffect } from "react";
-import { DiscogsCollectionItem, DiscogsCollectionResponse } from "../../types/discogs.ts";
+import { DiscogsCollectionItem, DiscogsCollectionResponse } from "../../types/discogs";
+import Image from "next/image";
 
 const Collection = () => {
     const [collection, setCollection] = useState<DiscogsCollectionItem[]>([]);
@@ -31,7 +32,13 @@ const Collection = () => {
                             <li key={item.id}>
                                 <strong>{item.basic_information.title}</strong> ({item.basic_information.year})
                                 {item.basic_information.cover_image && (
-                                    <img src={item.basic_information.cover_image} width="100" alt={item.basic_information.title} />
+                                    // <img src={item.basic_information.cover_image} width="100" alt={item.basic_information.title} />
+                                    <Image
+                                        src={item.basic_information.cover_image}
+                                        alt={item.basic_information.title}
+                                        width={100}
+                                        height={100}
+                                    />
                                 )}
                             </li>
                         ))

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation.js";
-import SearchResults from "./SearchResults.tsx";
+import { useRouter, useSearchParams } from "next/navigation";
+import SearchResults from "./SearchResults";
 
 export default function Search() {
     const router = useRouter();
@@ -11,7 +11,7 @@ export default function Search() {
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        if (query.trim()) {``
+        if (query.trim()) {
             router.push(`?q=${encodeURIComponent(query)}`);
         }
     };

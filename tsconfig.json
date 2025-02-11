@@ -1,39 +1,23 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
     "target": "ESNext",
-    "strict": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
-    "types": ["node", "react", "react-dom", "next"],
     "allowJs": true,
-    "allowImportingTsExtensions": true,
     "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "incremental": true,
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "@api/*": [
-        "./api/*"
-      ],
-      "@components/*": [
-        "./components/*"
-      ],
-      "@types/": [
-        "./types/*"
-      ]
-    },
+    "incremental": true,
     "plugins": [
       {
         "name": "next"
@@ -42,8 +26,8 @@
   },
   "include": [
     "**/*.ts",
-    "app",
-    "types",
+    "**/*.tsx",
+    "next-env.d.ts",
     ".next/types/**/*.ts"
   ],
   "exclude": [
