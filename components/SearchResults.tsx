@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Album } from "../types/discogs";
+import Image from "next/image";
 
 const SearchResults = ({ query }: { query: string }) => {
     const [albums, setAlbums] = useState<Album[]>([]);
@@ -31,7 +32,15 @@ const SearchResults = ({ query }: { query: string }) => {
                         albums.map((album, index) => (
                             <li key={index}>
                                 <strong>{album.title}</strong> ({album.year})
-                                {album.cover_image && <img src={album.cover_image} width="100" />}
+                                {album.cover_image &&
+                                    // <img src={album.cover_image} width="100" />
+                                    <Image 
+                                        src={album.cover_image} 
+                                        alt={album.title} 
+                                        width={100} 
+                                        height={100} 
+                                    />
+                                }
                             </li>
                         ))
                     ) : (

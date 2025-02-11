@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import SearchResults from "./SearchResults";
 
@@ -28,7 +28,9 @@ export default function Search() {
                 />
                 <button type="submit">Search</button>
             </form>
-            <SearchResults query={query} />
+            <Suspense fallback={<p>Loading results...</p>}>
+                <SearchResults query={query} />
+            </Suspense>
         </div>
     );
 };
