@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -16,7 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "next": "15.1.6",
+    "next": "15.1",
     "node-fetch": "^3.3.2",
     "oauth-1.0a": "^2.2.6",
     "prisma": "^6.2.1",

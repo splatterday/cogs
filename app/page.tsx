@@ -1,14 +1,6 @@
-import { Suspense } from "react";
-import Search from "../components/Search";
+// import { redirect } from "next/navigation";
 
-
-export default async function Home() {
-    return (
-        <div>
-            <h2>Home</h2>
-            <Suspense fallback={<p>Loading search...</p>}>
-                <Search />
-            </Suspense>
-        </div>
-    );
+export default function Home() {
+  <div></div>
+  // redirect("/search");
 };
