@@ -7,24 +7,27 @@ const BASE_URL = "https://api.discogs.com";
 const PERSONAL_TOKEN = process.env.DISCOGS_PERSONAL_TOKEN;
 
 if (!PERSONAL_TOKEN) {
-    throw new Error("Missing Discogs API token. Ensure it is set in the .env file.");
+  throw new Error("Missing Discogs API token. Ensure it is set in the .env file.");
 }
 
 export const searchDiscogs = async (query: string, type?: "artist" | "release" | "label") => {
-    try {
-        if (!query.trim()) throw new Error("Search query cannot be empty.");
+  try {
+    if (!query.trim()) throw new Error("Search query cannot be empty.");
 
-        const response = await axios.get(`${BASE_URL}/database/search`, {
-            params: { q: query, type },
-            headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` },
-        });
+    console.log(`Calling Discogs API with query: ${query}`); // Debugging
 
-        return response.data?.results ?? [];
-    } catch (error) {
-        console.error("Discogs API Error:", error);
-        return [];
-    }
+    const response = await axios.get(`${BASE_URL}/database/search`, {
+      params: { q: query, type },
+      headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` },
+    });
+
+    return response.data?.results ?? [];
+  } catch (error: any) {
+    console.error(`Discogs Search API Error: ${error.message}`);
+    return [];
+  }
 };
+
 
 export const fetchCollection = async (username: string) => {
     try {

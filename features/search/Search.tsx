@@ -1,22 +1,17 @@
-"use client";
+import SearchModule from "./SearchModule"; // Client Component
+import SearchResultsServer from "./SearchResultsServer"; // Server Wrapper
+// import SearchResults from "./SearchResults";
+import { Suspense } from "react";
 
-import { Suspense, useState } from "react";
-import SearchResults from "./SearchResults";
-import SearchInput from "./SearchInput";
-import Loading from "@/components/Loading/Loading";
-
-export default function Search({
-    searchParams,
-}: {
-    searchParams?: { q?: string };
-}) {
-    const [query, setQuery] = useState(searchParams?.q || "");
+export default function Search({ searchParams }: { searchParams?: { q?: string } }) {
+    const query = searchParams?.q || ""; // Ensure query is extracted properly
 
     return (
         <div>
-            <SearchInput query={query} setQuery={setQuery} />
-            <Suspense fallback={<Loading />}>
-                <SearchResults query={query} />
+            <SearchModule /> {/* Handles input & form submission */}
+            <Suspense fallback={<p>Loading results...</p>}>
+                <SearchResultsServer query={query} />
+                {/* <SearchResults query={query} /> */}
             </Suspense>
         </div>
     );
