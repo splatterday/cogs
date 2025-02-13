@@ -1,14 +1,10 @@
-import { Suspense } from "react";
-import Search from "../components/Search";
+import Search from "@/features/search/Search";
 
-
-export default async function Home() {
-    return (
-        <div>
-            <h2>Home</h2>
-            <Suspense fallback={<p>Loading search...</p>}>
-                <Search />
-            </Suspense>
-        </div>
-    );
-};
+export default function HomePage() {
+  return (
+    <div>
+      <h1>Home</h1>
+      <Search />
+    </div>
+  );
+}

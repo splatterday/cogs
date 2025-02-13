@@ -10,5 +10,5 @@ export interface DiscogsCollectionItem {
 }
 
 export interface DiscogsCollectionResponse {
-  releases: DiscogsCollectionItem[];
+  items: DiscogsCollectionItem[];
 }

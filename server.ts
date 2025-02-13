@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { searchAlbums } from "./api/discogsAPI";
+import { searchDiscogs } from "./api/discogsAPI";
 dotenv.config();
 
 const app = express();
@@ -13,7 +13,7 @@ app.use(express.json());
 import { Request, Response } from "express";
 
 app.get("/api/search", async (req: Request, res: Response) => {
-  const data = await searchAlbums(req.query.q as string);
+  const data = await searchDiscogs(req.query.q as string);
   res.json(data);
 });
 

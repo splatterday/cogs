@@ -1,43 +1,42 @@
-import axios from 'axios';
-import dotenv from 'dotenv';
+import axios from "axios";
+import dotenv from "dotenv";
 
-dotenv.config(); // Load environment variables
+dotenv.config();
 
-const BASE_URL = 'https://api.discogs.com';
-const PERSONAL_TOKEN = process.env.DISCOGS_PERSONAL_TOKEN || ''; // Get token from .env
+const BASE_URL = "https://api.discogs.com";
+const PERSONAL_TOKEN = process.env.DISCOGS_PERSONAL_TOKEN;
 
-export const searchAlbums = async (query: string) => {
+if (!PERSONAL_TOKEN) {
+    throw new Error("Missing Discogs API token. Ensure it is set in the .env file.");
+}
+
+export const searchDiscogs = async (query: string, type?: "artist" | "release" | "label") => {
     try {
-        if (!PERSONAL_TOKEN) throw new Error("Missing Discogs API token");
+        if (!query.trim()) throw new Error("Search query cannot be empty.");
 
         const response = await axios.get(`${BASE_URL}/database/search`, {
-            params: { q: query },
+            params: { q: query, type },
             headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` },
         });
 
-        return response.data;
-    } catch (error: unknown) {
-        if (error instanceof Error) {
-          console.error(`Discogs API Error: ${error.message}`);
-        } else if (typeof error === "object" && error !== null && "response" in error) {
-          const axiosError = error as { response?: { data?: { message?: string } } };
-          console.error(`Discogs API Error: ${axiosError.response?.data?.message || "Unknown error"}`);
-        } else {
-          console.error("An unknown error occurred", error);
-        }
-        return null;
-    }      
-};
-
-export const fetchCollection = async () => {
-    try {
-        const response = await fetch(`https://api.discogs.com/users/YOUR_USERNAME/collection/folders/0/releases`, {
-            headers: { Authorization: `Discogs token=${process.env.DISCOGS_PERSONAL_TOKEN}` }
-        });
-        return response.json();
+        return response.data?.results ?? [];
     } catch (error) {
-        console.error("Error fetching collection:", error);
-        return null;
+        console.error("Discogs API Error:", error);
+        return [];
     }
 };
- 
+
+export const fetchCollection = async (username: string) => {
+    try {
+        if (!username.trim()) throw new Error("Username cannot be empty.");
+
+        const response = await axios.get(`${BASE_URL}/users/${username}/collection/folders/0/releases`, {
+            headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` },
+        });
+
+        return response.data?.releases ?? [];
+    } catch (error) {
+        console.error("Discogs Collection API Error:", error);
+        return [];
+    }
+};
