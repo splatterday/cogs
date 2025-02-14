@@ -18,17 +18,16 @@ return (
     <div>
         <CardGrid>
             {results.length > 0 ? (
-            results.map((item, index) => (
-                <div key={index}>
-                    {item.cover_image && (
-                        <Image src={item.cover_image} alt={item.title} width={100} height={100} />
-                    )}
-                <strong>{item.title}</strong>
-                </div>
-            ))
-            ) : (
-                <p>No results found</p>
-            )}
+                results.map((item, index) => (
+                    <div key={index}>
+                        {item.cover_image && (
+                            <Image src={item.cover_image} alt={item.title} width={100} height={100} />
+                        )}
+                    <strong>{item.title}</strong>
+                    </div>
+                ))
+                ) : <p>No results found</p>
+            }
         </CardGrid>
     </div>
   );
