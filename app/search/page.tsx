@@ -1,5 +1,7 @@
 import Search from "@/features/search/Search";
 
-export default function SearchPage({ searchParams }: { searchParams?: { q?: string } }) {
-    return <Search searchParams={searchParams} />; // Pass whole object
-}
+export default async function SearchPage({ searchParams,}: { searchParams: { q?: string }; }) {
+    const query = searchParams?.q || "";
+
+    return <Search query={query} />;
+};

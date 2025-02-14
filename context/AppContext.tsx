@@ -2,11 +2,9 @@
 
 import { createContext, useContext, ReactNode } from "react";
 import { UserProvider } from "./UserContext";
-// In the future, you can add more providers here (e.g., ThemeProvider, AuthProvider, etc.)
 
 const AppContext = createContext(null);
 
-// This will wrap all other context providers
 export const AppProvider = ({ children }: { children: ReactNode }) => {
     return (
         <UserProvider>
@@ -15,7 +13,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     );
 };
 
-// Custom hook to use AppContext (extend as needed)
 export const useApp = () => {
     const context = useContext(AppContext);
     if (!context) {
