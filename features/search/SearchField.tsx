@@ -1,15 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import SearchInput from "./SearchInput";
 import styles from "./SearchField.module.scss";
 
-export default function SearchModule() {
-  const searchParams = useSearchParams();
+export default function SearchField() {
   const router = useRouter();
 
-  const [query, setQuery] = useState(searchParams.get("q") || "");
+  const [query, setQuery] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();

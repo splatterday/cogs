@@ -1,7 +1,9 @@
-import Search from "@/features/search/Search";
+// app/search/page.tsx
+export const dynamic = "force-dynamic";
 
-export default async function SearchPage({ searchParams,}: { searchParams: { q?: string }; }) {
-    const query = searchParams?.q || "";
+import SearchModule from "@/features/search/SearchModule";
 
-    return <Search query={query} />;
-};
+export default async function Search({ searchParams }: { searchParams?: { q?: string } }) {
+  const query = searchParams?.q || "";
+  return <SearchModule query={query} />;
+}

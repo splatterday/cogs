@@ -14,8 +14,6 @@ export const searchDiscogs = async (query: string, type?: "artist" | "release" |
   try {
     if (!query.trim()) throw new Error("Search query cannot be empty.");
 
-    console.log(`Calling Discogs API with query: ${query}`); // Debugging
-
     const response = await axios.get(`${BASE_URL}/database/search`, {
       params: { q: query, type },
       headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` },
