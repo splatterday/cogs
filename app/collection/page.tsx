@@ -1,7 +1,7 @@
 import LoginPrompt from "@/features/auth/LoginPrompt";
 import Collection from "@/features/collection/Collection";
 
-export default function CollectionPage({ searchParams }: { searchParams: { username?: string } }) {
+export default async function CollectionPage({ searchParams }: { searchParams: { username?: string } }) {
   const username = searchParams?.username;
 
   if (!username) {

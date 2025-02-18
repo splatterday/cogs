@@ -1,3 +1,5 @@
+import { hostname } from 'os';
+
 /**
  * @type {import('next').NextConfig}
  */
@@ -6,8 +8,18 @@ const nextConfig = {
     DISCOGS_PERSONAL_TOKEN: process.env.DISCOGS_PERSONAL_TOKEN,
   },
   images: {
-    domains: ["i.discogs.com", "st.discogs.com"],
-  },
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.discogs.com', 
+        pathname: '**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'st.discogs.com', 
+        pathname: '**'
+      }
+  ]},
 };
 
 export default nextConfig;
