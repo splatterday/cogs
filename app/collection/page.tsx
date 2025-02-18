@@ -1,16 +1,13 @@
+import LoginPrompt from "@/features/auth/LoginPrompt";
 import Collection from "@/features/collection/Collection";
-import { Suspense } from "react";
-import { useUser } from "@/context/UserContext";
 
-export default function MyCollection() {
-    const username = useUser();
+export default function CollectionPage({ searchParams }: { searchParams: { username?: string } }) {
+  const username = searchParams?.username;
 
-    return (
-        <div>
-            <h2>Collection</h2>
-            <Suspense fallback={<p>Loading collection...</p>}>
-                <Collection username={username} />
-            </Suspense>
-        </div>
-    );
+  if (!username) {
+    // Show a client component that handles login
+    return <LoginPrompt />;
+  }
+
+  return <Collection username={username} />;
 }
