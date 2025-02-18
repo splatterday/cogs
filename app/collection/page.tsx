@@ -1,11 +1,16 @@
+// app/collection/page.tsx
 import LoginPrompt from "@/features/auth/LoginPrompt";
 import Collection from "@/features/collection/Collection";
 
-export default async function CollectionPage({ searchParams }: { searchParams: { username?: string } }) {
-  const username = searchParams?.username;
+export default async function CollectionPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ username?: string }>;
+}) {
+  const params = await searchParams;
+  const username = params.username;
 
   if (!username) {
-    // Show a client component that handles login
     return <LoginPrompt />;
   }
 
