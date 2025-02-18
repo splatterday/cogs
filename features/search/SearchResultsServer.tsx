@@ -21,7 +21,7 @@ return (
                 results.map((item, index) => (
                     <div key={index}>
                         {item.cover_image && (
-                            <Image src={item.cover_image} alt={item.title} width={100} height={100} />
+                            <Image src={item.cover_image} alt={item.title?? "Image"} width={100} height={100} />
                         )}
                     <strong>{item.title}</strong>
                     </div>
