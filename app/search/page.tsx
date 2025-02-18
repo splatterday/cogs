@@ -1,12 +1,13 @@
 // app/search/page.tsx
+import SearchModule from "@/features/search/SearchModule"; // Server Component
 
-// import SearchModule from "@/features/search/SearchModule";
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const params = await searchParams;
+  const query = params.q ?? "";
 
-// export default async function Search({ searchParams }: { searchParams?: { q?: string } }) {
-//   const query = searchParams?.q || "";
-//   return <SearchModule query={query} />;
-// }
-
-export default async function Search() {
-    return <div><h2>DUMMY SEARCH</h2></div>
+  return <SearchModule query={query} />;
 }
