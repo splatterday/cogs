@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import { Header } from "../components/Header/Header";
+import "@/styles/main.scss";
+import { Header } from "@/components/Header/Header";
 import { AppProvider } from "@/context/AppContext";
 
 export const metadata: Metadata = {
@@ -16,17 +16,28 @@ const Layout = ({
   return (
     <AppProvider>
       <html lang="en">
-        <body>
+        <body className="bg-background-light text-text-light dark:bg-background-dark dark:text-text-dark">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                let theme = localStorage.getItem('theme') || 
+                  (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.classList.add(theme);
+              })();
+            `,
+          }}
+        />
           <header>
             <Header />
           </header>
-          <main>
+          <main className="p-6">
             {children}
           </main>
         </body>
       </html>
     </AppProvider>
-  );
+  );``
 }
 
 export default Layout;

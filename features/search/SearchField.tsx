@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import SearchInput from "./SearchInput";
-import styles from "./SearchField.module.scss";
 
 export default function SearchField() {
   const router = useRouter();
@@ -18,9 +17,9 @@ export default function SearchField() {
   };
 
   return (
-    <form onSubmit={handleSearch} className={styles.searchField}>
+    <form onSubmit={handleSearch}>
       <SearchInput query={query} setQuery={setQuery} />
-      <button type="submit">Search</button>
+      <button type="submit" className="button">Search</button>
     </form>
   );
 }

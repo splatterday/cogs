@@ -6,11 +6,23 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        primary: "#3490dc",
+        primary: {
+          light: "#1d4ed8", // Example: Blue in light mode
+          dark: "#3b82f6", // Example: Lighter blue in dark mode
+        },
         secondary: "#ffed4a",
+        background: {
+          light: "#ffffff",
+          dark: "#121212",
+        },
+        text: {
+          light: "#111827",
+          dark: "#f9fafb",
+        },
         danger: "#e3342f",
       },
       spacing: {

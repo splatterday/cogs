@@ -2,14 +2,17 @@
 
 import { createContext, useContext, ReactNode } from "react";
 import { UserProvider } from "./UserContext";
+import { ThemeProvider } from "./ThemeContext";
 
 const AppContext = createContext(null);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
     return (
-        <UserProvider>
-            {children}
-        </UserProvider>
+        <ThemeProvider>
+            <UserProvider>
+                {children}
+            </UserProvider>
+        </ThemeProvider>
     );
 };
 
