@@ -2,15 +2,30 @@ import type { Config } from "tailwindcss";
 
 export default {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./features/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      },
       colors: {
-        primary: "#3490dc",
+        primary: {
+          light: "#1d4ed8",
+          dark: "#3b82f6",
+        },
         secondary: "#ffed4a",
+        background: {
+          light: "#ffffff",
+          dark: "#121212",
+        },
+        text: {
+          light: "#111827",
+          dark: "#f9fafb",
+        },
         danger: "#e3342f",
       },
       spacing: {
@@ -21,4 +36,7 @@ export default {
     },
   },
   plugins: [],
+  corePlugins: {
+    // preflight: false,
+  },
 } satisfies Config;
