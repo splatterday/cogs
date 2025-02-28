@@ -1,11 +1,14 @@
+"use client";
+
 import { Navigation } from "@/components/Navigation/Navigation";
-import "./Header.scss";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
 export const Header = () => {
     return (
-        <nav>
-            <h2>Discogs app</h2>
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <h2>(0)</h2>
             <Navigation />
-        </nav>
+            <ThemeToggle />
+        </div>
     )
 }
