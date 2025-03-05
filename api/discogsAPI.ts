@@ -10,22 +10,30 @@ if (!PERSONAL_TOKEN) {
   throw new Error("Missing Discogs API token. Ensure it is set in the .env file.");
 }
 
-export const searchDiscogs = async (query: string, type?: "artist" | "release" | "label") => {
+export const searchDiscogs = async (
+  query: string,
+  type?: "artist" | "release" | "master",
+  page = 1
+) => {
   try {
     if (!query.trim()) throw new Error("Search query cannot be empty.");
 
+    const params: Record<string, any> = { q: query, page };
+    if (type) params.type = type;
+
+    console.log(`🔵 Fetching from Discogs API:`, params);
+
     const response = await axios.get(`${BASE_URL}/database/search`, {
-      params: { q: query, type },
+      params,
       headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` },
     });
 
     return response.data?.results ?? [];
   } catch (error: any) {
-    console.error(`Discogs Search API Error: ${error.message}`);
+    console.error(`🚨 Discogs Search API Error: ${error.message}`);
     return [];
   }
 };
-
 
 export const fetchCollection = async (username: string) => {
     try {
