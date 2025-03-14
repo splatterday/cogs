@@ -2,6 +2,7 @@ import { cache } from "react";
 import Image from "next/image";
 import CardGrid from "@/components/ui/CardGrid/CardGrid";
 import { BaseDiscogsItem } from "@/types/discogs";
+import { Card } from "@/components/ui/Card/Card";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -31,19 +32,7 @@ export default async function SearchResultsServer({ query, type }: { query: stri
             <CardGrid>
                 {results.length > 0 ? (
                     results.map((item: BaseDiscogsItem, index: string) => (
-                        <div key={index}>
-                            {item.cover_image && (
-                                <Image
-                                    src={item.cover_image}
-                                    alt={item.title ?? "Image"} 
-                                    width="0"
-                                    height="0"
-                                    sizes="(max-width: 768px) 100vw, 200px"
-                                    className="max-w-full max-h-64 w-full h-auto"
-                                />
-                            )}
-                            <strong>{item.title}</strong>
-                        </div>
+                        <Card item={item} index={index} />
                     ))
                 ) : (
                     <p>No results found</p>
