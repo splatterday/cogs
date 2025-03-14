@@ -48,7 +48,7 @@ export default function Pagination({ currentPage, totalPages }: { currentPage: n
                     max={totalPages}
                     value={inputPage}
                     onChange={(e) => setInputPage(e.target.value)}
-                    className="w-10 p-2 text-center border rounded"
+                    className="w-10 p-2 text-center border rounded dark:text-text-light"
                 />
                 <span>of {totalPages}</span>
             </form>

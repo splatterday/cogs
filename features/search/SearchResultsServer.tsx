@@ -3,6 +3,7 @@ import Image from "next/image";
 import CardGrid from "@/components/ui/CardGrid/CardGrid";
 import { BaseDiscogsItem } from "@/types/discogs";
 import Pagination from "@/components/ui/Pagination/Pagination";
+import { Card } from "@/components/ui/Card/Card";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -48,13 +49,8 @@ export default async function SearchResultsServer({
             {totalPages > 1 ? <Pagination currentPage={page} totalPages={totalPages} /> : null}
             <CardGrid>
                 {results.length > 0 ? (
-                    results.map((item: BaseDiscogsItem, index: number) => (
-                        <div key={index}>
-                            {item.cover_image && (
-                                <Image src={item.cover_image} alt={item.title ?? "Image"} width={100} height={100} />
-                            )}
-                            <strong>{item.title}</strong>
-                        </div>
+                    results.map((item: BaseDiscogsItem, index: string) => (
+                        <Card item={item} key={index} />
                     ))
                 ) : (
                     <p>No results found</p>
