@@ -3,6 +3,8 @@
 import { createContext, useContext, ReactNode } from "react";
 import { UserProvider } from "./UserContext";
 import { ThemeProvider } from "./ThemeContext";
+import { CollectionProvider } from "./CollectionContext";
+import { WantlistProvider } from "./WantlistContext";
 
 const AppContext = createContext(null);
 
@@ -10,7 +12,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     return (
         <ThemeProvider>
             <UserProvider>
-                {children}
+                <CollectionProvider>
+                    <WantlistProvider>
+                        {children}
+                    </WantlistProvider>
+                </CollectionProvider>
             </UserProvider>
         </ThemeProvider>
     );

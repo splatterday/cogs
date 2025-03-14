@@ -8,12 +8,19 @@ export type Community = {
   have?: number;
 };
 
+export type Formats = {
+  descriptions?: string[];
+  name?: string;
+  qty?: number;
+  text?: string;
+}
+
 export type BaseDiscogsItem = {
-  id?: number;
-  type?: string;
+  id: number;
+  type?: "album" | "artist" | "master";
   user_data?: UserData;
-  master_id?: number;
-  master_url?: string;
+  master_id?: number | null;
+  master_url?: string | null;
   uri?: string;
   title?: string;
   thumb?: string;
@@ -32,17 +39,30 @@ export interface Album extends BaseDiscogsItem {
   catno?: string;
   community?: Community;
   format_quantity?: number;
-  formats?: string[];
+  formats?: Formats[];
+  instance_id?: number;
+  folder_id?: number;
 }
 
-export interface Artist extends BaseDiscogsItem {}
+export interface Master extends BaseDiscogsItem {
+  year?: string;
+  genre?: string[];
+  style?: string[];
+  cover_image?: string;
+  format?: string[];
+}
+
+export interface Artist extends BaseDiscogsItem {
+  master_id?: null; // Artists do not have a master_id
+  master_url?: null;
+}
 
 export interface DiscogsCollectionItem {
   id?: number;
   basic_information?: Album;
 }
 
-export type DiscogsSearchResponse = Album | Artist;
+export type DiscogsSearchResponse = Album | Artist | Master;
 
 export interface DiscogsCollectionResponse {
   albums?: Album[];
