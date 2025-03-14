@@ -21,6 +21,9 @@ export default async function Layout ({
   return (
     <AppProvider>
       <html lang="en" className={theme}>
+        <head>
+          <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        </head>
         <body className="bg-background-light text-text-light dark:bg-background-dark dark:text-text-dark">
           <header>
             <Header />
