@@ -32,7 +32,7 @@ export default async function SearchResultsServer({ query, type }: { query: stri
             <CardGrid>
                 {results.length > 0 ? (
                     results.map((item: BaseDiscogsItem, index: string) => (
-                        <Card item={item} index={index} />
+                        <Card item={item} key={index} />
                     ))
                 ) : (
                     <p>No results found</p>

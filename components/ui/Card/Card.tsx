@@ -10,6 +10,7 @@ interface CardProps {
 }
 
 export function Card({ item, index }: CardProps) {
+    console.log(item);
     const isAlbum = (item: DiscogsSearchResponse): item is Album => {
         return (item as Album).year !== undefined;
     };
@@ -20,7 +21,7 @@ export function Card({ item, index }: CardProps) {
     return (
         <div
         className="
-            flex items-center space-x-4
+            flex flex-col items-center space-x-4
             p-4
             border border-gray-200 dark:border-gray-700
             rounded-md shadow-sm
@@ -28,26 +29,25 @@ export function Card({ item, index }: CardProps) {
         "
         data-index={index}
         >
-        <Image
-            src={imageSrc}
-            alt={title}
-            width={0}
-            height={0}
-            sizes="80px"
-            className="w-20 h-auto object-cover rounded"
-        />
-
-        <div className="flex flex-col">
-            <h3 className="text-gray-800 dark:text-gray-100 font-semibold">
-            {title}
-            </h3>
-            {isAlbum(item) && (
-            <p className="text-sm text-gray-500 dark:text-gray-300">
-                Year: {item.year ?? "N/A"}
-            </p>
-            )}
-            {/* Add more album/artist fields as needed */}
-        </div>
+            <div className="flex flex-col">
+                <h3 className="text-gray-800 dark:text-gray-100 font-semibold">
+                {title}
+                </h3>
+                {isAlbum(item) && (
+                <p className="text-sm text-gray-500 dark:text-gray-300">
+                    Year: {item.year ?? "N/A"}
+                </p>
+                )}
+                {/* Add more album/artist fields as needed */}
+            </div>
+            <Image
+                src={imageSrc}
+                alt={title}
+                width={0}
+                height={0}
+                sizes="80px"
+                className="w-20 h-auto object-cover rounded"
+            />
         </div>
     );
 }

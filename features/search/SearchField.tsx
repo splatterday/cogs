@@ -31,7 +31,7 @@ export default function SearchField() {
     };
 
     return (
-        <form onSubmit={handleSearch} className="flex flex-col gap-4 w-full max-w-md">
+        <form onSubmit={handleSearch} className="flex flex-row gap-2 w-full max-w-md items-center">
             <label className="flex items-center gap-2 cursor-pointer">
                 <input
                     type="checkbox"
@@ -40,14 +40,14 @@ export default function SearchField() {
                     onChange={() => setMastersOnly(!mastersOnly)}
                     className="appearance-auto w-5 h-5 border border-gray-400 rounded-md checked:bg-blue-500 checked:border-transparent transition-all disabled:opacity-50"
                 />
-                <span className="text-gray-700 font-medium">Masters only</span>
+                <span className="text-gray-700 font-medium">Masters</span>
             </label>
 
             <div className="relative">
                 <select
                     value={searchType}
                     onChange={(e) => setSearchType(e.target.value)}
-                    className="w-full p-3 border border-gray-300 rounded-lg bg-white text-text-light shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
+                    className="w-30 p-3 border border-gray-300 rounded-lg bg-white text-text-light shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
                 >
                     <option value="release">Releases</option>
                     <option value="artist">Artists</option>
