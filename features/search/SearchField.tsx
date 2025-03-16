@@ -9,40 +9,42 @@ export default function SearchField() {
     
     const [query, setQuery] = useState("");
     const [mastersOnly, setMastersOnly] = useState(false);
-    const [searchType, setSearchType] = useState("release");
+    const [searchType, setSearchType] = useState("release"); // Default to searching releases
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         if (query.trim()) {
             const searchParams = new URLSearchParams();
             searchParams.set("q", query);
-    
-            let finalType = searchType;
+            searchParams.set("page", "1"); // ✅ Reset page to 1 on new search
+            
+            if (searchType && searchType !== "all") {
+                searchParams.set("type", searchType);
+            }
+
             if (searchType === "release" && mastersOnly) {
-                finalType = "master";
+                searchParams.set("type", "master"); // ✅ Only request `master`, not both
             }
-    
-            if (finalType !== "all") {
-                searchParams.set("type", finalType);
-            }
-    
+
             router.push(`/search?${searchParams.toString()}`, { scroll: false });
         }
-    };
+    };    
 
     return (
         <form onSubmit={handleSearch} className="flex flex-col gap-4 w-full max-w-md">
+            {/* Masters Checkbox - Only enabled if searching releases */}
             <label className="flex items-center gap-2 cursor-pointer">
                 <input
                     type="checkbox"
                     checked={mastersOnly}
-                    disabled={searchType !== "release"}
+                    disabled={searchType !== "release"} 
                     onChange={() => setMastersOnly(!mastersOnly)}
                     className="appearance-auto w-5 h-5 border border-gray-400 rounded-md checked:bg-blue-500 checked:border-transparent transition-all disabled:opacity-50"
                 />
                 <span className="text-gray-700 font-medium">Masters only</span>
             </label>
 
+            {/* Search Type Selector */}
             <div className="relative">
                 <select
                     value={searchType}
@@ -54,8 +56,10 @@ export default function SearchField() {
                 </select>
             </div>
 
+            {/* Search Input */}
             <SearchInput query={query} setQuery={setQuery} />
 
+            {/* Search Button */}
             <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all">
                 Search
             </button>

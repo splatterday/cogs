@@ -18,34 +18,34 @@ export const searchDiscogs = async (
   try {
     if (!query.trim()) throw new Error("Search query cannot be empty.");
 
-    const params: Record<string, any> = { q: query, page };
-    if (type) params.type = type;
-
-    console.log(`🔵 Fetching from Discogs API:`, params);
-
     const response = await axios.get(`${BASE_URL}/database/search`, {
-      params,
+      params: { q: query, type, page },
       headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` },
     });
 
-    return response.data?.results ?? [];
+    const totalPages = response.data?.pagination?.pages ?? 1;
+    const results = response.data?.results ?? [];
+
+    console.log(`📡 API Response:`, { totalPages, results });
+
+    return { results, totalPages };
   } catch (error: any) {
     console.error(`🚨 Discogs Search API Error: ${error.message}`);
-    return [];
+    return { results: [], totalPages: 1 };
   }
 };
 
 export const fetchCollection = async (username: string) => {
-    try {
-        if (!username.trim()) throw new Error("Username cannot be empty.");
+  try {
+    if (!username.trim()) throw new Error("Username cannot be empty.");
 
-        const response = await axios.get(`${BASE_URL}/users/${username}/collection/folders/0/releases`, {
-            headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` },
-        });
+    const response = await axios.get(`${BASE_URL}/users/${username}/collection/folders/0/releases`, {
+      headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` },
+    });
 
-        return response.data?.releases ?? [];
-    } catch (error) {
-        console.error("Discogs Collection API Error:", error);
-        return [];
-    }
+    return response.data?.releases ?? [];
+  } catch (error) {
+    console.error("Discogs Collection API Error:", error);
+    return [];
+  }
 };
