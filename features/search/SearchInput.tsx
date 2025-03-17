@@ -12,6 +12,7 @@ const SearchInput = ({ query, setQuery }: { query: string; setQuery: (q: string)
              rounded-md focus:outline-none focus:ring-2 focus:ring-primary-light 
              dark:border-background-light dark:bg-background-light dark:text-text-light 
              dark:focus:ring-primary-dark"
+        data-testid="search-input"
       />
     </>
   );
