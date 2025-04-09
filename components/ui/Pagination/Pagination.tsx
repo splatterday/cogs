@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Button } from "../Button/Button";
 
 export default function Pagination({ currentPage, totalPages }: { currentPage: number; totalPages: number }) {
     const router = useRouter();
@@ -34,9 +35,9 @@ export default function Pagination({ currentPage, totalPages }: { currentPage: n
         <div className="flex items-center gap-4 mt-4">
             {/* Previous Button */}
             {currentPage > 1 && (
-                <button onClick={() => goToPage(currentPage - 1)} className="px-4 py-2 button button-secondary">
+                <Button onClick={() => goToPage(currentPage - 1)} variant="pagination">
                     Previous
-                </button>
+                </Button>
             )}
 
             {/* Page Input Field */}
@@ -55,9 +56,9 @@ export default function Pagination({ currentPage, totalPages }: { currentPage: n
 
             {/* Next Button */}
             {currentPage < totalPages && (
-                <button onClick={() => goToPage(currentPage + 1)} className="px-4 py-2 button button-secondary">
+                <Button onClick={() => goToPage(currentPage + 1)} variant="pagination">
                     Next
-                </button>
+                </Button>
             )}
         </div>
     );

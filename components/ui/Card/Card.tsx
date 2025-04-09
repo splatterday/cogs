@@ -1,52 +1,33 @@
 "use client";
 
-import Image from "next/image";
 import React from "react";
 import type { Album, DiscogsSearchResponse } from "@/types/discogs";
+import { AlbumCard } from "./AlbumCard";
+import { ArtistCard } from "./ArtistCard";
 
-interface CardProps {
-    item: DiscogsSearchResponse;
-    index?: string;
-}
+/**
+ * Parent Card component.
+ * It acts as a router: based on the type of data provided,
+ * it renders either an AlbumCard or an ArtistCard.
+ */
+export function Card({ item, index }: { item: DiscogsSearchResponse; index?: number; }) {
+  const isAlbum = (item: DiscogsSearchResponse): item is Album =>
+    (item as Album).year !== undefined;
 
-export function Card({ item, index }: CardProps) {
-    console.log(item);
-    const isAlbum = (item: DiscogsSearchResponse): item is Album => {
-        return (item as Album).year !== undefined;
-    };
-
-    const imageSrc = item.cover_image || item.thumb || "/images/placeholder.png";
-    const title = item.title ?? "Untitled";
-
-    return (
-        <div
-        className="
-            flex flex-col items-center space-x-4
-            p-4
-            border border-gray-200 dark:border-gray-700
-            rounded-md shadow-sm
-            bg-white dark:bg-gray-800
-        "
-        data-index={index}
-        >
-            <div className="flex flex-col">
-                <h3 className="text-gray-800 dark:text-gray-100 font-semibold">
-                {title}
-                </h3>
-                {isAlbum(item) && (
-                <p className="text-sm text-gray-500 dark:text-gray-300">
-                    Year: {item.year ?? "N/A"}
-                </p>
-                )}
-            </div>
-            <Image
-                src={imageSrc}
-                alt={title}
-                width={0}
-                height={0}
-                sizes="80px"
-                className="w-20 h-auto object-cover rounded"
-            />
-        </div>
-    );
+  // Optional: Wrap in a common container with shared styles.
+  return (
+    <div
+      className="
+        rounded-lg border border-highlight-light dark: border-highlight-dark bg-primary-light dark:bg-primary-dark p-4 shadow-sm
+        flex items-start
+      "
+      data-index={index}
+    >
+      {isAlbum(item) ? (
+        <AlbumCard item={item} />
+      ) : (
+        <ArtistCard item={item} />
+      )}
+    </div>
+  );
 }

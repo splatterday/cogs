@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
 
+const palette = require("./palette.json");
+
 export default {
   content: [
     "./features/**/*.{js,ts,jsx,tsx,mdx}",
@@ -13,20 +15,14 @@ export default {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       colors: {
-        primary: {
-          light: "#1d4ed8",
-          dark: "#3b82f6",
-        },
-        secondary: "#ffed4a",
-        background: {
-          light: "#ffffff",
-          dark: "#121212",
-        },
-        text: {
-          light: "#111827",
-          dark: "#f9fafb",
-        },
-        danger: "#e3342f",
+          primary: palette.colors.primary,  // Use as: bg-primary-light and dark:bg-primary-dark, etc.
+          secondary: palette.colors.secondary,
+          background: palette.colors.background,
+          text: palette.colors.text,
+          danger: palette.colors.danger,
+          white: palette.colors.white,
+          black: palette.colors.black,
+          highlight: palette.colors.highlight,
       },
       spacing: {
         '72': '18rem',

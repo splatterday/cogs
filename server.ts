@@ -13,14 +13,10 @@ app.use(express.json());
 
 app.get("/api/search", async (req: Request, res: Response): Promise<void> => {
     try {
-        console.log(`📡 Raw Request Query:`, req.query);
-
         const query = typeof req.query.q === "string" ? req.query.q.trim() : "";
         let rawType = req.query.type;
         const page = Number(req.query.page) || 1;
         const mastersOnly = req.query.masters === "true";
-
-        console.log(`🔍 Extracted Raw Values:`, { query, rawType, mastersOnly, page });
 
         let searchType: "artist" | "release" | "master" | undefined = undefined;
         if (typeof rawType === "string" && ["artist", "release", "master"].includes(rawType)) {
@@ -31,8 +27,6 @@ app.get("/api/search", async (req: Request, res: Response): Promise<void> => {
             searchType = "master";
         }
 
-        console.log(`📡 Parsed Request:`, { query, searchType, mastersOnly, page });
-
         if (!query) {
             res.status(400).json({ error: "Query parameter required" });
             return;
@@ -40,10 +34,11 @@ app.get("/api/search", async (req: Request, res: Response): Promise<void> => {
 
         const { results, totalPages } = await searchDiscogs(query, searchType, page);
 
-        console.log(`📡 Sending Response:`, { totalPages, resultsLength: results.length });
-        res.json({ results, totalPages });
+        // I don't want label types (at least for now)
+        const filteredResults = results.filter((item: any) => item.type !== "label");
+
+        res.json({ results: filteredResults, totalPages });
     } catch (error: any) {
-        console.error("🚨 Server Error:", error.message);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });

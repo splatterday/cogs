@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import SearchInput from "./SearchInput";
+import { Button } from "@/components/ui/Button/Button";
 
 export default function SearchField() {
     const router = useRouter();
@@ -52,12 +53,13 @@ export default function SearchField() {
                 >
                     <option value="release">Releases</option>
                     <option value="artist">Artists</option>
+                    <option value="all">All</option>
                 </select>
             </div>
             <SearchInput query={query} setQuery={setQuery} />
-            <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all">
+            <Button type="submit" variant="default">
                 Search
-            </button>
+            </Button>
         </form>
     );
 }
