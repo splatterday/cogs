@@ -15,43 +15,42 @@ interface AlbumCardProps {
 
 export function AlbumCard({ item }: AlbumCardProps) {
   const title = item.title ?? "Untitled";
-  const albumData = parseTitle(title); // Assumes returns { album: string, artist: string }
+  const albumData = parseTitle(title);
 
-  const { toggleCollection } = useCollection();
-  const { toggleWantlist } = useWantlist();
-  const itemId = item.id?.toString();
-  if (!itemId) return null;
+  const { collection, toggleCollection } = useCollection();
+  const { wantlist, toggleWantlist } = useWantlist();
+  if (!item.id) return null;
+  
+  const inCollection = collection.some((r) => r.id === item.id);
+  const inWantlist = wantlist.some(w => w.id === item.id);
 
   return (
     <div className="flex flex-col w-full relative">
-      {/* Top-right action icons */}
       <div className="absolute top-2 right-2 flex gap-2">
-        {item.user_data && (
-          <>
-            {item.user_data.in_collection ? (
-              <FiMinusCircle
-                className="cursor-pointer text-red-500"
-                onClick={() => toggleCollection(itemId, item.user_data?.in_collection ?? false)}
-              />
-            ) : (
-              <FiPlusCircle
-                className="cursor-pointer text-gray-500 dark:text-gray-300"
-                onClick={() => toggleCollection(itemId, item.user_data?.in_collection ?? false)}
-              />
-            )}
-            {item.user_data.in_wantlist ? (
-              <FaStar
-                className="cursor-pointer text-yellow-500"
-                onClick={() => toggleWantlist(itemId, item.user_data?.in_wantlist ?? false)}
-              />
-            ) : (
-              <FaRegStar
-                className="cursor-pointer text-gray-500 dark:text-gray-300"
-                onClick={() => toggleWantlist(itemId, item.user_data?.in_wantlist ?? false)}
-              />
-            )}
-          </>
-        )}
+        <>
+          {inCollection ? (
+            <FiMinusCircle
+              className="cursor-pointer text-red-500"
+              onClick={() => toggleCollection(item.id)}
+            />
+          ) : (
+            <FiPlusCircle
+              className="cursor-pointer text-gray-500 dark:text-gray-300"
+              onClick={() => toggleCollection(item.id)}
+            />
+          )}
+          {inWantlist ? (
+            <FaStar
+              className="cursor-pointer text-yellow-500"
+              onClick={() => toggleWantlist(item.id)}
+            />
+          ) : (
+            <FaRegStar
+              className="cursor-pointer text-gray-500 dark:text-gray-300"
+              onClick={() => toggleWantlist(item.id)}
+            />
+          )}
+        </>
       </div>
 
       {/* Album Title & Artist */}

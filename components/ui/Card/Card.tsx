@@ -5,16 +5,10 @@ import type { Album, DiscogsSearchResponse } from "@/types/discogs";
 import { AlbumCard } from "./AlbumCard";
 import { ArtistCard } from "./ArtistCard";
 
-/**
- * Parent Card component.
- * It acts as a router: based on the type of data provided,
- * it renders either an AlbumCard or an ArtistCard.
- */
 export function Card({ item, index }: { item: DiscogsSearchResponse; index?: number; }) {
   const isAlbum = (item: DiscogsSearchResponse): item is Album =>
     (item as Album).year !== undefined;
 
-  // Optional: Wrap in a common container with shared styles.
   return (
     <div
       className="

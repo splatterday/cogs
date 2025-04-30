@@ -1,67 +1,74 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { fetchWantlist, toggleWantlist } from "@/api/discogsAPI";
-
-interface WantlistContextType {
-    wantlist: any[];
-    toggleWantlist: (releaseId: string, isInWantlist: boolean) => void;
-}
-
-const WantlistContext = createContext<WantlistContextType | undefined>(undefined);
-
-export const WantlistProvider = ({ children }: { children: React.ReactNode }) => {
-    const [wantlist, setWantlist] = useState<any[]>([]);
-
+import React, {
+    createContext,
+    useState,
+    useEffect,
+    useContext,
+    ReactNode,
+  } from "react";
+  import * as discogsAPI from "@/api/discogsAPI";
+  
+  export interface Release {
+    id: number;
+    title: string;
+    year: number;
+    thumb: string;
+  }
+  
+  interface WantlistContextType {
+    wantlist: Release[];
+    toggleWantlist: (releaseId: number) => Promise<void>;
+  }
+  
+  const WantlistContext = createContext<WantlistContextType>({
+    wantlist: [],
+    toggleWantlist: async () => {},
+  });
+  
+  export const WantlistProvider = ({ children }: { children: ReactNode }) => {
+    const [wantlist, setWantlist] = useState<Release[]>([]);
+  
     useEffect(() => {
-        const loadWantlist = async () => {
-            const storedWantlist = localStorage.getItem("wantlist");
-
-            if (storedWantlist) {
-                console.log('STORED WANTS', storedWantlist);
-                setWantlist(JSON.parse(storedWantlist));
-            } else {
-                const data = await fetchWantlist();
-                console.log('FETCHED WANTS', data);
-                setWantlist(data);
-                localStorage.setItem("wantlist", JSON.stringify(data)); 
-            }
-        };
-
-        loadWantlist();
+      (async () => {
+        const data = await discogsAPI.fetchWantlist();
+        setWantlist(data);
+      })();
     }, []);
+  
+    const toggleWantlist = async (releaseId: number) => {
+      const isPresent = wantlist.some((r) => r.id === releaseId);
 
-    const handleToggleWantlist = async (releaseId: string, isInWantlist: boolean) => {
-        try {
-            setWantlist((prevWantlist) =>
-                prevWantlist.map((item) =>
-                    item.id.toString() === releaseId
-                        ? { ...item, user_data: { ...item.user_data, in_wantlist: !isInWantlist } }
-                        : item
-                )
-            );
-    
-            // API call to Discogs
-            await toggleWantlist(releaseId, isInWantlist);
-    
-            // OPTIONAL: Refetch wantlist if necessary
-            const updatedWantlist = await fetchWantlist();
-            setWantlist(updatedWantlist);
-            localStorage.setItem("wantlist", JSON.stringify(updatedWantlist));
-        } catch (error) {
-            console.error("Error toggling wantlist:", error);
+      setWantlist((prev) =>
+        isPresent
+          ? prev.filter((r) => r.id !== releaseId)
+          : [
+              ...prev,
+              { id: releaseId, title: "", year: 0, thumb: "" },
+            ]
+      );
+  
+      try {
+        if (isPresent) {
+          await discogsAPI.toggleWantlist(releaseId, false);
+        } else {
+          await discogsAPI.toggleWantlist(releaseId, true);
         }
-    };        
-
+      } catch (err) {
+        console.error("Wantlist toggle failed:", err);
+      }
+    };
+  
     return (
-        <WantlistContext.Provider value={{ wantlist, toggleWantlist: handleToggleWantlist }}>
-            {children}
-        </WantlistContext.Provider>
+      <WantlistContext.Provider value={{ wantlist, toggleWantlist }}>
+        {children}
+      </WantlistContext.Provider>
     );
-};
+  };
 
-export const useWantlist = () => {
+  export const useWantlist = () => {
     const context = useContext(WantlistContext);
     if (!context) {
         throw new Error("useWantlist must be used within a WantlistProvider");
     }
     return context;
-};
+}
+  

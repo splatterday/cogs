@@ -16,7 +16,7 @@ export type Formats = {
 }
 
 export type BaseDiscogsItem = {
-  id?: number;
+  id: number;
   type?: "album" | "artist" | "master";
   user_data?: UserData;
   master_id?: number | null;

@@ -1,12 +1,15 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { fetchCollection, toggleCollection } from "@/api/discogsAPI";
+import * as discogsAPI from "@/api/discogsAPI";
 
 interface CollectionContextType {
     collection: any[];
-    toggleCollection: (releaseId: string, isInCollection: boolean) => void;
+    toggleCollection: (releaseId: number) => Promise<void>;
 }
 
-const CollectionContext = createContext<CollectionContextType | undefined>(undefined);
+const CollectionContext = createContext<CollectionContextType | undefined>({
+    collection: [],
+    toggleCollection: async () => {},
+});
 
 export const CollectionProvider = ({ children }: { children: React.ReactNode }) => {
     const [collection, setCollection] = useState<any[]>([]);
@@ -16,11 +19,9 @@ export const CollectionProvider = ({ children }: { children: React.ReactNode }) 
             const storedCollection = localStorage.getItem("collection");
 
             if (storedCollection) {
-                console.log('STORED COLL', storedCollection);
                 setCollection(JSON.parse(storedCollection));
             } else {
-                const data = await fetchCollection();
-                console.log('FETCHED COLL', data);
+                const data = await discogsAPI.fetchCollection();
                 setCollection(data);
                 localStorage.setItem("collection", JSON.stringify(data)); 
             }
@@ -29,30 +30,32 @@ export const CollectionProvider = ({ children }: { children: React.ReactNode }) 
         loadCollection();
     }, []);
 
-    const handleToggleCollection = async (releaseId: string, isInCollection: boolean) => {
-        try {
-            setCollection((prevCollection) =>
-                prevCollection.map((item) =>
-                    item.id.toString() === releaseId
-                        ? { ...item, user_data: { ...item.user_data, in_collection: !isInCollection } }
-                        : item
-                )
-            );
-    
-            // API call to Discogs
-            await toggleCollection(releaseId, isInCollection);
-    
-            // OPTIONAL: Refetch collection if necessary
-            const updatedCollection = await fetchCollection();
-            setCollection(updatedCollection);
-            localStorage.setItem("collection", JSON.stringify(updatedCollection));
-        } catch (error) {
-            console.error("Error toggling collection:", error);
+
+    const toggleCollection = async (releaseId: number) => {
+      const isPresent = collection.some((r) => r.id === releaseId);
+
+      setCollection((prev) =>
+        isPresent
+          ? prev.filter((r) => r.id !== releaseId)
+          : [
+              ...prev,
+              { id: releaseId, title: "", year: 0, thumb: "" },
+            ]
+      );
+  
+      try {
+        if (isPresent) {
+          await discogsAPI.toggleCollection(releaseId, false);
+        } else {
+          await discogsAPI.toggleCollection(releaseId, true);
         }
-    };    
+      } catch (err) {
+        console.error("Collection toggle failed:", err);
+      }
+    };
 
     return (
-        <CollectionContext.Provider value={{ collection, toggleCollection: handleToggleCollection }}>
+        <CollectionContext.Provider value={{ collection, toggleCollection }}>
             {children}
         </CollectionContext.Provider>
     );

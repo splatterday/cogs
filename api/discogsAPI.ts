@@ -36,20 +36,53 @@ export const searchDiscogs = async (
   }
 };
 
-export const fetchCollection = async () => {
-  try {
-    const response = await axios.get(`${BASE_URL}/users/${USERNAME}/collection/folders/0/releases`, {
-      headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` },
-    });
+// export const fetchCollection = async () => {
+//   try {
+//     const response = await axios.get(`${BASE_URL}/users/${USERNAME}/collection/folders/0/releases`, {
+//       headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` },
+//     });
 
-    return response.data?.releases ?? [];
-  } catch (error) {
-    console.error("Discogs Collection API Error:", error);
-    return [];
-  }
+//     return response.data?.releases ?? [];
+//   } catch (error) {
+//     console.error("Discogs Collection API Error:", error);
+//     return [];
+//   }
+// };
+
+export const fetchCollection = async () => {
+  const allWants: any[] = [];
+  let page = 1;
+  let totalPages = 1;
+
+  do {
+    const resp = await axios.get(
+      `${BASE_URL}/users/${USERNAME}/wants`,
+      {
+        params: { page, per_page: 100 },      // max per_page is 100
+        headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` }
+      }
+    );
+
+    // pull out the array of raw want objects
+    const batch = resp.data.wants as any[];
+    // map to whatever shape you need (e.g. basic_information + ids)
+    allWants.push(
+      ...batch.map(w => ({
+        ...w.basic_information,
+        instance_id: w.id,
+        date_added:  w.date_added
+      }))
+    );
+
+    // update our loop
+    totalPages = resp.data.pagination.pages;
+    page++;
+  } while (page <= totalPages);
+
+  return allWants;
 };
 
-export const toggleCollection = async (releaseId: string, isInCollection: boolean) => {
+export const toggleCollection = async (releaseId: number, isInCollection: boolean) => {
   try {
       if (isInCollection) {
           // Remove from collection
@@ -71,33 +104,67 @@ export const toggleCollection = async (releaseId: string, isInCollection: boolea
   }
 };
 
-export const fetchWantlist = async () => {
-  try {
-    const response = await axios.get(`${BASE_URL}/users/${USERNAME}/wants`, {
-      headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` },
-    });
-    console.log('FETCHED WANTS', response);
+// export const fetchWantlist = async () => {
+//   try {
+//     const response = await axios.get(`${BASE_URL}/users/${USERNAME}/wants`, {
+//       headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` },
+//     });
+//     console.log('FETCHED WANTS', response);
 
-    return response.data?.releases ?? [];
-  } catch (error) {
-    console.error("Discogs Wantlist API Error:", error);
-    return [];
-  }
+//     return response.data?.wants ?? [];
+//   } catch (error) {
+//     console.error("Discogs Wantlist API Error:", error);
+//     return [];
+//   }
+// };
+
+export const fetchWantlist = async () => {
+  const allWants: any[] = [];
+  let page = 1;
+  let totalPages = 1;
+
+  do {
+    const resp = await axios.get(
+      `${BASE_URL}/users/${USERNAME}/wants`,
+      {
+        params: { page, per_page: 100 },      // max per_page is 100
+        headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` }
+      }
+    );
+
+    // pull out the array of raw want objects
+    const batch = resp.data.wants as any[];
+    // map to whatever shape you need (e.g. basic_information + ids)
+    allWants.push(
+      ...batch.map(w => ({
+        ...w.basic_information,
+        instance_id: w.id,
+        date_added:  w.date_added
+      }))
+    );
+
+    // update our loop
+    totalPages = resp.data.pagination.pages;
+    page++;
+  } while (page <= totalPages);
+
+  return allWants;
 };
 
-export const toggleWantlist = async (releaseId: string, isInWantlist: boolean) => {
+
+export const toggleWantlist = async (releaseId: number, isInWantlist: boolea) => {
   try {
-      if (!releaseId.trim()) throw new Error("Invalid releaseId.");
+      // if (!releaseId.trim()) throw new Error("Invalid releaseId.");
 
       if (isInWantlist) {
-          // Remove from Wantlist
+          console.log('REMOVING', releaseId, typeof(releaseId));
           await axios.delete(`${BASE_URL}/users/${USERNAME}/wants/${releaseId}`, {
               headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` },
           });
 
           console.log(`Removed release ${releaseId} from Wantlist.`);
       } else {
-          // ✅ FIXED: Use PUT instead of POST to add to Wantlist
+        console.log('ADDING', releaseId);
           await axios.put(`${BASE_URL}/users/${USERNAME}/wants/${releaseId}`, {}, {
               headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` },
           });
