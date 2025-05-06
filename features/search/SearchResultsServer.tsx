@@ -14,12 +14,12 @@ const getCachedSearchResults =
         if (type) params.set("type", type);
         params.set("page", page.toString());
 
-        console.log("🔍 Fetching Search Results with Params:", { query, type, page });
+        console.log("Fetching Search Results with Params:", { query, type, page });
 
         const response = await fetch(`${API_URL}/api/search?${params.toString()}`, { cache: "no-store" });
 
         if (!response.ok) {
-            console.error(`🚨 API Request Failed: ${response.statusText}`);
+            console.error(`API Request Failed: ${response.statusText}`);
             return { results: [], totalPages: 1 };
         }
 
@@ -37,7 +37,7 @@ export default async function SearchResultsServer({
 }) {
     if (!query) return <p>Enter a search term to begin.</p>;
 
-    console.log("🔍 Fetching Search Results with Params:", { query, type, page });
+    console.log("Fetching Search Results with Params:", { query, type, page });
 
     const { results, totalPages } = await getCachedSearchResults(query, type as "artist" | "release" | "master", page);
 
