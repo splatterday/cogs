@@ -12,9 +12,31 @@ if (!PERSONAL_TOKEN) {
   throw new Error("Missing Discogs API token. Ensure it is set in the .env file.");
 }
 
-/**
- * Fetch the full wantlist (all pages) and map into Album[]
- */
+export const searchDiscogs = async (
+  query: string,
+  type?: "artist" | "release" | "master",
+  page = 1
+) => {
+  try {
+    if (!query.trim()) throw new Error("Search query cannot be empty.");
+
+    const response = await axios.get(`${BASE_URL}/database/search`, {
+      params: { q: query, type, page },
+      headers: { Authorization: `Discogs token=${PERSONAL_TOKEN}` },
+    });
+
+    const totalPages = response.data?.pagination?.pages ?? 1;
+    const results = response.data?.results ?? [];
+
+    console.log(`📡 API Response:`, { totalPages, results });
+
+    return { results, totalPages };
+  } catch (error: any) {
+    console.error(`Discogs Search API Error: ${error.message}`);
+    return { results: [], totalPages: 1 };
+  }
+};
+
 export async function fetchWantlist(): Promise<Album[]> {
   const all: Album[] = [];
   let page = 1;

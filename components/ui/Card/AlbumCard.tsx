@@ -31,23 +31,23 @@ export function AlbumCard({ item }: AlbumCardProps) {
           {inCollection ? (
             <FiMinusCircle
               className="cursor-pointer text-red-500"
-              onClick={() => toggleCollection(item.id)}
+              onClick={() => toggleCollection(item)}
             />
           ) : (
             <FiPlusCircle
               className="cursor-pointer text-gray-500 dark:text-gray-300"
-              onClick={() => toggleCollection(item.id)}
+              onClick={() => toggleCollection(item)}
             />
           )}
           {inWantlist ? (
             <FaStar
               className="cursor-pointer text-yellow-500"
-              onClick={() => toggleWantlist(item.id)}
+              onClick={() => toggleWantlist(item)}
             />
           ) : (
             <FaRegStar
               className="cursor-pointer text-gray-500 dark:text-gray-300"
-              onClick={() => toggleWantlist(item.id)}
+              onClick={() => toggleWantlist(item)}
             />
           )}
         </>
