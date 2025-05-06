@@ -1,58 +1,34 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import * as discogsAPI from "@/api/discogsAPI";
+import React, { createContext, useState, useEffect, useContext, ReactNode } from "react";
+import { Album } from "@/types/discogs";
+import * as discogsAPI from "../api/discogsAPI";
 
 interface CollectionContextType {
-    collection: any[];
-    toggleCollection: (releaseId: number) => Promise<void>;
+  collection: Album[];
+  toggleCollection: (album: Album) => Promise<void>;
 }
 
-const CollectionContext = createContext<CollectionContextType | undefined>({
-    collection: [],
-    toggleCollection: async () => {},
+const CollectionContext = createContext<CollectionContextType>({
+  collection: [],
+  toggleCollection: async () => {},
 });
 
-export const CollectionProvider = ({ children }: { children: React.ReactNode }) => {
-    const [collection, setCollection] = useState<any[]>([]);
-    
-    useEffect(() => {
-        const loadCollection = async () => {
-            const storedCollection = localStorage.getItem("collection");
+export const CollectionProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [collection, setCollection] = useState<Album[]>([]);
 
-            if (storedCollection) {
-                setCollection(JSON.parse(storedCollection));
-            } else {
-                const data = await discogsAPI.fetchCollection();
-                setCollection(data);
-                localStorage.setItem("collection", JSON.stringify(data)); 
-            }
-        };
+  useEffect(() => {
+    discogsAPI.fetchCollection().then(setCollection);
+  }, []);
 
-        loadCollection();
-    }, []);
-
-
-    const toggleCollection = async (releaseId: number) => {
-      const isPresent = collection.some((r) => r.id === releaseId);
-
-      setCollection((prev) =>
-        isPresent
-          ? prev.filter((r) => r.id !== releaseId)
-          : [
-              ...prev,
-              { id: releaseId, title: "", year: 0, thumb: "" },
-            ]
-      );
-  
-      try {
-        if (isPresent) {
-          await discogsAPI.toggleCollection(releaseId, false);
-        } else {
-          await discogsAPI.toggleCollection(releaseId, true);
-        }
-      } catch (err) {
-        console.error("Collection toggle failed:", err);
-      }
-    };
+  const toggleCollection = async (album: Album) => {
+    const exists = collection.some(a => a.id === album.id);
+    if (exists) {
+      setCollection(prev => prev.filter(a => a.id !== album.id));
+      await discogsAPI.removeCollection(album.id);
+    } else {
+      setCollection(prev => [...prev, album]);
+      await discogsAPI.addCollection(album.id);
+    }
+  };
 
     return (
         <CollectionContext.Provider value={{ collection, toggleCollection }}>

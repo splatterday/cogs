@@ -6,17 +6,11 @@ import React, {
     ReactNode,
   } from "react";
   import * as discogsAPI from "@/api/discogsAPI";
-  
-  export interface Release {
-    id: number;
-    title: string;
-    year: number;
-    thumb: string;
-  }
+import { Album } from "@/types/discogs";
   
   interface WantlistContextType {
-    wantlist: Release[];
-    toggleWantlist: (releaseId: number) => Promise<void>;
+    wantlist: Album[];
+    toggleWantlist: (album: Album) => Promise<void>;
   }
   
   const WantlistContext = createContext<WantlistContextType>({
@@ -25,7 +19,7 @@ import React, {
   });
   
   export const WantlistProvider = ({ children }: { children: ReactNode }) => {
-    const [wantlist, setWantlist] = useState<Release[]>([]);
+    const [wantlist, setWantlist] = useState<Album[]>([]);
   
     useEffect(() => {
       (async () => {
@@ -34,28 +28,17 @@ import React, {
       })();
     }, []);
   
-    const toggleWantlist = async (releaseId: number) => {
-      const isPresent = wantlist.some((r) => r.id === releaseId);
-
-      setWantlist((prev) =>
-        isPresent
-          ? prev.filter((r) => r.id !== releaseId)
-          : [
-              ...prev,
-              { id: releaseId, title: "", year: 0, thumb: "" },
-            ]
-      );
-  
-      try {
-        if (isPresent) {
-          await discogsAPI.toggleWantlist(releaseId, false);
+    const toggleWantlist = async (album: Album) => {
+        const exists = wantlist.some((a) => a.id === album.id);
+    
+        if (exists) {
+          setWantlist((prev) => prev.filter((a) => a.id !== album.id));
+          await discogsAPI.removeWant(album.id);
         } else {
-          await discogsAPI.toggleWantlist(releaseId, true);
+          setWantlist((prev) => [...prev, album]);
+          await discogsAPI.addWant(album.id);
         }
-      } catch (err) {
-        console.error("Wantlist toggle failed:", err);
-      }
-    };
+      };
   
     return (
       <WantlistContext.Provider value={{ wantlist, toggleWantlist }}>
