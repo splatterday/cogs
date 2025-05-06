@@ -5,19 +5,29 @@ const BASE_URL = "https://api.discogs.com";
 const USERNAME = process.env.NEXT_PUBLIC_DISCOGS_USER!;
 const TOKEN    = process.env.NEXT_PUBLIC_DISCOGS_TOKEN!;
 
+export interface SearchResponse {
+  results: Album[];
+  totalPages: number;
+}
+
 export async function searchDiscogs(
   query: string,
   type: string,
   page = 1
-): Promise<Album[]> {
+): Promise<SearchResponse> {
   const resp = await axios.get(`${BASE_URL}/database/search`, {
     params: { q: query, type, page, per_page: 50 },
     headers: { Authorization: `Discogs token=${TOKEN}` },
   });
-  return (resp.data.results as any[]).map(r => ({
+
+  const results = (resp.data.results as any[]).map(r => ({
     ...r,
     user_data: { in_collection: false, in_wantlist: false },
   }));
+
+  const totalPages = resp.data.pagination.pages as number;
+
+  return { results, totalPages };
 }
 
 export async function fetchWantlist(): Promise<Album[]> {

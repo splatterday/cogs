@@ -1,59 +1,57 @@
-import CardGrid from "@/components/ui/CardGrid/CardGrid";
-import { BaseDiscogsItem } from "@/types/discogs";
-import Pagination from "@/components/ui/Pagination/Pagination";
-import { Card } from "@/components/ui/Card/Card";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-
-const getCachedSearchResults =
-    async (query: string, type?: "artist" | "release" | "master", page = 1) => {
-        if (!query.trim()) return { results: [], totalPages: 1 };
-
-        const params = new URLSearchParams();
-        params.set("q", query);
-        if (type) params.set("type", type);
-        params.set("page", page.toString());
-
-        console.log("Fetching Search Results with Params:", { query, type, page });
-
-        const response = await fetch(`${API_URL}/api/search?${params.toString()}`, { cache: "no-store" });
-
-        if (!response.ok) {
-            console.error(`API Request Failed: ${response.statusText}`);
-            return { results: [], totalPages: 1 };
-        }
-
-        return await response.json();
-    };
+// features/search/SearchResultsServer.tsx
+import CardGrid       from "@/components/ui/CardGrid/CardGrid";
+import Pagination     from "@/components/ui/Pagination/Pagination";
+import { searchDiscogs, SearchResponse } from "@/api/discogsAPI";
+import type { BaseDiscogsItem } from "@/types/discogs";
+import Image from "next/image";
 
 export default async function SearchResultsServer({
-    query,
-    type,
-    page,
+  query,
+  type = "release",
+  page = 1,
 }: {
-    query: string;
-    type?: string;
-    page: number;
+  query?: string;
+  type?: "artist" | "release" | "master";
+  page?: number;
 }) {
-    if (!query) return <p>Enter a search term to begin.</p>;
+  if (!query?.trim()) {
+    return <p>Enter a search term to begin.</p>;
+  }
 
-    console.log("Fetching Search Results with Params:", { query, type, page });
+  // ✨ New call returns both results + pagination
+  const { results, totalPages }: SearchResponse =
+    await searchDiscogs(query, type, page);
 
-    const { results, totalPages } = await getCachedSearchResults(query, type as "artist" | "release" | "master", page);
+  return (
+    <>
+      {/* render pagination if more than one page */}
+      {totalPages > 1 && (
+        <Pagination currentPage={page} totalPages={totalPages} />
+      )}
 
-    return (
-        <div>
-            {totalPages > 1 ? <Pagination currentPage={page} totalPages={totalPages} /> : null}
-            <CardGrid>
-                {results.length > 0 ? (
-                    results.map((item: BaseDiscogsItem, index: number) => (
-                        <Card item={item} key={index} />
-                    ))
-                ) : (
-                    <p>No results found</p>
-                )}
-            </CardGrid>
-            {totalPages > 1 ? <Pagination currentPage={page} totalPages={totalPages} /> : null}
-        </div>
-    );
+      {/* render the grid or no‐data message */}
+      {results.length > 0 ? (
+        <CardGrid>
+            {results.length > 0 ? (
+                results.map((item: BaseDiscogsItem, index: number) => (
+                    <div key={index}>
+                        {item.cover_image && (
+                            <Image src={item.cover_image} alt={item.title ?? "Image"} width={100} height={100} />
+                        )}
+                        <strong>{item.title}</strong>
+                    </div>
+                ))
+            ) : (
+                <p>No results found</p>
+            )}
+        </CardGrid>
+      ) : (
+        <p>No results found</p>
+      )}
+
+      {totalPages > 1 && (
+        <Pagination currentPage={page} totalPages={totalPages} />
+      )}
+    </>
+  );
 }
