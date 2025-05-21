@@ -1,18 +1,18 @@
 import Image from "next/image";
-import { fetchCollection } from "@/api/discogsAPI";
+import { fetchCollection } from "@/lib/discogsAPI";
 import { DiscogsCollectionItem } from "@/types/discogs";
 import { cache } from "react";
 
-const getCachedCollection = cache(async (username: string) => {
-    return await fetchCollection(username);
+const getCachedCollection = cache(async () => {
+    return await fetchCollection();
 });
 
-export default async function Collection({ username }: { username: string }) {
-    const collection: DiscogsCollectionItem[] = await getCachedCollection(username);
+export default async function Collection() {
+    const collection: DiscogsCollectionItem[] = await getCachedCollection();
 
     return (
         <div>
-            <h1>{username}'s Collection</h1>
+            <h1>Collection</h1>
             {collection.length > 0 ? (
                 <ul>
                     {collection.map((item) => (
