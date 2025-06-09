@@ -36,7 +36,4 @@ jobs:
 
       - name: Deploy to Vercel (on main branch)
         if: github.ref == 'refs/heads/main'
-        run: |
-          vercel --prod \
-            --token=${{ secrets.VERCEL_TOKEN }} \
-            --yes
+        run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
