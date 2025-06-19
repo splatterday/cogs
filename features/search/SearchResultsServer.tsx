@@ -3,7 +3,7 @@ import Pagination     from "@/components/ui/Pagination/Pagination";
 import { searchDiscogs, SearchResponse } from "@/lib/discogsAPI";
 
 export default async function SearchResultsServer({
-  query,
+  query = "",
   type = "release",
   page = 1,
 }: {
@@ -12,7 +12,7 @@ export default async function SearchResultsServer({
   page?: number;
 }) {
   if (!query?.trim()) {
-    return <p>Enter a search term to begin.</p>;
+    return;
   }
 
   const { results, totalPages }: SearchResponse =

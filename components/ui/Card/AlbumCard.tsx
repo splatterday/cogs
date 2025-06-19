@@ -63,10 +63,10 @@ export function AlbumCard({ item }: AlbumCardProps) {
       <div className="mb-2">
         {albumData && (
           <>
-            <h3 className="text-gray-800 dark:text-gray-100 font-semibold text-sm truncate max-w-<1/2>">
+            <h3 className="text-gray-800 dark:text-foreground font-semibold text-sm truncate max-w-<1/2>">
               {albumData.album}
             </h3>
-            <h4 className="text-gray-600 dark:text-gray-300 text-xs truncate">
+            <h4 className="text-gray-600 dark:text-foreground text-xs truncate">
               {albumData.artist}
             </h4>
           </>
@@ -89,12 +89,12 @@ export function AlbumCard({ item }: AlbumCardProps) {
           <p className="text-gray-600 dark:text-gray-300">{item.country}</p>
           {item.formats && item.formats.length > 0 && item.formats[0].descriptions ? (
             <div className="flex flex-col">
-              <p className="truncate">
+              <p className="text-ellipsis">
                 {item.formats[0].descriptions.map((desc, i) => (
                   <span key={i} className="mr-1">{desc}</span>
                 ))}
               </p>
-              <p className="truncate">{item.formats[0].text}</p>
+              <p className="text-ellipsis">{item.formats[0].text}</p>
             </div>
           ) : (
             <p>N/A</p>

@@ -12,7 +12,7 @@ export function Card({ item, index }: { item: DiscogsSearchResponse; index?: num
   return (
     <div
       className="
-        rounded-lg border border-highlight-light dark: border-highlight-dark bg-primary-light dark:bg-primary-dark p-4 shadow-sm
+        rounded-lg border border-highlight dark: border-highlight-dark bg-primary dark:bg-primary-dark p-4 shadow-sm
         flex items-start
       "
       data-index={index}

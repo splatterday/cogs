@@ -14,19 +14,19 @@ const buttonVariants = cva(
         variants: {
             variant: {
                 default:
-                "bg-primary-light dark:bg-primary-dark text-text hover:bg-primary-light/90 dark:hover:bg-primary-dark/90 font-semibold py-2 px-4 rounded-lg shadow-md transition-all",
+                "bg-primary dark:bg-primary-dark text-text hover:bg-primary/90 dark:hover:bg-primary-dark/90 font-semibold py-2 px-4 rounded-lg shadow-md transition-all",
                 destructive:
                 "bg-danger text-white hover:bg-danger/90 font-semibold py-2 px-4 rounded-lg shadow-md transition-all",
                 outline:
-                "border border-gray-300 dark:border-gray-600 text-primary-light dark:text-primary-dark hover:bg-highlight-light dark:hover:bg-highlight-dark font-semibold py-2 px-4 rounded-lg transition-all",
+                "border border-gray-300 dark:border-gray-600 text-primary dark:text-primary-dark hover:bg-highlight dark:hover:bg-highlight-dark font-semibold py-2 px-4 rounded-lg transition-all",
                 pagination:
                 "bg-secondary text-black hover:bg-secondary/90 px-3 py-1 rounded transition-all",
                 subtle:
-                "bg-secondary text-text-light dark:text-text-dark hover:bg-secondary/90 font-semibold py-2 px-4 rounded-lg transition-all",
+                "bg-secondary text-text dark:text-text-dark hover:bg-secondary/90 font-semibold py-2 px-4 rounded-lg transition-all",
                 ghost:
-                "bg-transparent text-primary-light dark:text-primary-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-all",
+                "bg-transparent text-primary dark:text-primary-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-all",
                 link:
-                "underline-offset-4 hover:underline text-primary-light dark:text-primary-dark transition-all",
+                "underline-offset-4 hover:underline text-primary dark:text-primary-dark transition-all",
             },
             size: {
                 default: "h-10 py-2 px-4",
