@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "../Button/Button";
+import { Input } from "../Input";
 
 export default function Pagination({ currentPage, totalPages }: { currentPage: number; totalPages: number }) {
     const router = useRouter();
@@ -43,20 +44,20 @@ export default function Pagination({ currentPage, totalPages }: { currentPage: n
             {/* Page Input Field */}
             <form onSubmit={handleSubmit} className="flex items-center gap-2">
                 <span>Page</span>
-                <input
+                <Input
                     type="number"
                     min={1}
                     max={totalPages}
                     value={inputPage}
                     onChange={(e) => setInputPage(e.target.value)}
-                    className="w-10 p-2 text-center border rounded dark:text-text-light"
+                    className="w-10 p-2 text-center border rounded dark:text-text"
                 />
                 <span>of {totalPages}</span>
             </form>
 
             {/* Next Button */}
             {currentPage < totalPages && (
-                <Button onClick={() => goToPage(currentPage + 1)} variant="pagination">
+                <Button onClick={() => goToPage(currentPage + 1)} variant="default">
                     Next
                 </Button>
             )}

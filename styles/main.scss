@@ -1,3 +1,101 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ----------------------------------------------------------------
+   1)  DESIGN TOKENS  ➜  root-level CSS custom properties
+       (One single source of truth – edit here only!)
+---------------------------------------------------------------- */
+@layer base {
+  :root {
+    /*  brand colours – light theme  -------------------------------- */
+    --color-primary:            34 64% 98%;   /* #FDFAF6 */
+    --color-primary-hover:      266 70% 94%;  /* #EDE3FA */
+    --color-primary-foreground: 0 0% 100%;    /* #FFFFFF */
+
+    --color-secondary:            136 26% 92%; /* #E4EFE7 */
+    --color-secondary-hover:      134 34% 88%; /* #D4EAD9 */
+    --color-secondary-foreground: 221 39% 11%; /* #111827 */
+
+    /*  base surfaces & text  -------------------------------------- */
+    --color-background: 33 67% 94%;  /* #FAF1E6 */
+    --color-foreground: 221 39% 11%; /* #111827 */
+    --color-text-muted: 220 9% 46%;  /* #6B7280 */
+
+    /*  functional colours  ---------------------------------------- */
+    --color-danger:            2 76% 54%;   /* #E3342F */
+    --color-danger-foreground: 0 0% 100%;  /* #FFFFFF */
+
+    --color-highlight:            98 29% 63%; /* #99BC85 */
+    --color-highlight-foreground: 0 0% 100%; /* #FFFFFF */
+
+    --color-border: 220 13% 91%; /* #E5E7EB */
+
+    /*  optional rigid spacing token as a CSS var (if you ever need it) */
+    --spacing-72: 18rem;
+    --spacing-84: 21rem;
+    --spacing-96: 24rem;
+
+    /*  ----------------------------------------------------------------
+        2)  shadcn aliases – let all generated components keep working
+        ---------------------------------------------------------------- */
+    --background: var(--color-background);
+    --foreground: var(--color-foreground);
+
+    --card:             var(--color-background);
+    --card-foreground:  var(--color-foreground);
+    --popover:          var(--color-background);
+    --popover-foreground: var(--color-foreground);
+
+    --primary:            var(--color-primary);
+    --primary-foreground: var(--color-primary-foreground);
+    --secondary:          var(--color-secondary);
+    --secondary-foreground: var(--color-secondary-foreground);
+
+    --muted:            var(--color-background);
+    --muted-foreground: var(--color-text-muted);
+
+    --accent:            var(--color-highlight);
+    --accent-foreground: var(--color-highlight-foreground);
+
+    --destructive:            var(--color-danger);
+    --destructive-foreground: var(--color-danger-foreground);
+
+    --border: var(--color-border);
+    --input:  var(--color-border);
+    --ring:   var(--color-primary);
+
+    --radius: 0.5rem; /* keep shadcn’s default rounding */
+  }
+
+  /* ------------  DARK THEME overrides  --------------------------- */
+  .dark {
+    --color-primary:            270 71% 31%; /* #4F1787 */
+    --color-primary-hover:      266 70% 94%; /* reuse light hover */
+    --color-primary-foreground: 0 0% 100%;
+
+    --color-secondary:            338 82% 57%; /* #EB3678 */
+    --color-secondary-hover:      134 34% 88%;
+    --color-secondary-foreground: 0 0% 98%;
+
+    --color-background: 254 98% 19%; /* #180161 */
+    --color-foreground: 210 20% 98%; /* #F9FAFB */
+    --color-text-muted: 220 9% 46%;
+
+    --color-danger:            2 76% 54%;
+    --color-danger-foreground: 0 0% 100%;
+
+    --color-highlight:            19 96% 61%; /* #FB773C */
+    --color-highlight-foreground: 0 0% 100%;
+
+    --color-border: 217 19% 27%; /* #374151 */
+  }
+}
+
+/* ----------------------------------------------------------------
+   3)  Global element resets
+---------------------------------------------------------------- */
+@layer base {
+  *   { @apply border-border; }
+  body { @apply bg-background text-foreground; }
+}

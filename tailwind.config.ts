@@ -1,38 +1,60 @@
-import type { Config } from "tailwindcss";
+import type { Config } from "tailwindcss"
 
-const palette = require("./palette.json");
-
-export default {
+export default <Config>{
+  darkMode: ["class"],
   content: [
-    "./features/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
-  darkMode: "class",
   theme: {
     extend: {
-      fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-      },
       colors: {
-          primary: palette.colors.primary,  // Use as: bg-primary-light and dark:bg-primary-dark, etc.
-          secondary: palette.colors.secondary,
-          background: palette.colors.background,
-          text: palette.colors.text,
-          danger: palette.colors.danger,
-          white: palette.colors.white,
-          black: palette.colors.black,
-          highlight: palette.colors.highlight,
+        background: "hsl(var(--background) / <alpha-value>)",
+        foreground: "hsl(var(--foreground) / <alpha-value>)",
+
+        primary: {
+          DEFAULT:     "hsl(var(--primary) / <alpha-value>)",
+          foreground:  "hsl(var(--primary-foreground) / <alpha-value>)",
+          hover:       "hsl(var(--color-primary-hover) / <alpha-value>)",
+        },
+
+        secondary: {
+          DEFAULT:     "hsl(var(--secondary) / <alpha-value>)",
+          foreground:  "hsl(var(--secondary-foreground) / <alpha-value>)",
+          hover:       "hsl(var(--color-secondary-hover) / <alpha-value>)",
+        },
+
+        muted: {
+          DEFAULT:     "hsl(var(--muted) / <alpha-value>)",
+          foreground:  "hsl(var(--muted-foreground) / <alpha-value>)",
+        },
+
+        accent: {
+          DEFAULT:     "hsl(var(--accent) / <alpha-value>)",
+          foreground:  "hsl(var(--accent-foreground) / <alpha-value>)",
+        },
+
+        destructive: {
+          DEFAULT:     "hsl(var(--destructive) / <alpha-value>)",
+          foreground:  "hsl(var(--destructive-foreground) / <alpha-value>)",
+        },
+
+        border: "hsl(var(--border) / <alpha-value>)",
       },
+
       spacing: {
-        '72': '18rem',
-        '84': '21rem',
-        '96': '24rem',
+        72: "18rem",
+        84: "21rem",
+        96: "24rem",
+      },
+
+      borderRadius: {
+        lg: "var(--radius)",
       },
     },
   },
-  plugins: [],
-  corePlugins: {
-    // preflight: false,
-  },
-} satisfies Config;
+  plugins: [
+    require("tailwindcss-animate"),
+  ],
+}

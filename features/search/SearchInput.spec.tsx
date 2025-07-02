@@ -1,4 +1,4 @@
-import "@testing-library/jest-dom"; // ✅ Ensures Jest matchers are available
+import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import SearchInput from "./SearchInput";
 
