@@ -2,11 +2,11 @@ import { Suspense } from "react";
 import SearchResultsServer from "@/features/search/SearchResultsServer";
 
 type SearchPageProps = {
-  searchParams: {
+  searchParams: Promise<{
     q?: string;
     type?: "artist" | "release" | "master";
     page?: string;
-  };
+  }>;
 };
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
