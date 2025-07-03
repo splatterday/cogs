@@ -1,14 +1,15 @@
-import SearchModule from "@/features/search/SearchModule";
+import { Suspense } from "react";
+import SearchResultsServer from "@/features/search/SearchResultsServer";
 
-export default async function SearchPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ q?: string; type?: string; page?: string; }>;
-}) {
-  const params = await searchParams;
-  const query = params.q ?? "";
-  const type = params.type ?? undefined;
-  const page = Number(params.page) || 1;
-
-  return <SearchModule query={query} type={type} page={page} />;
+export default async function SearchPage({ searchParams }) {
+  const { q = "", type, page = "1" } = await searchParams;
+  return (
+    <Suspense fallback={<p>Loading results…</p>}>
+      <SearchResultsServer 
+        query={q} 
+        type={type} 
+        page={Number(page)} 
+      />
+    </Suspense>
+  );
 }

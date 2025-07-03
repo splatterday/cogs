@@ -25,6 +25,7 @@ export const Navigation = () => {
           <li>
             <Link
               href="/search"
+              prefetch={true}
               className="
                 text-gray-800 dark:text-gray-100
                 px-3 py-2
