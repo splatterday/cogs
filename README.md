@@ -1,38 +1,76 @@
-# cogs
-Optimizing Discogs how I want it
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# COGS
 
-## Getting Started
+> **Mission Statement**  
+> Here I try to push up the most important parts of Discogs inventory management, the stuff I use regularly.
 
-First, run the development server:
+## Summary
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Cogs is a Next.js + Tailwind app that talks to the Discogs API so you can search artists/releases/masters, view cover art, and build your own want-list and collection.  
+It’s containerized with Docker and comes with both local (npm) and containerized workflows.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Built With
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- 🖥️ **Next.js** (App Router + Server Components)  
+- 💅 **Tailwind CSS** for styling  
+- 🐳 **Docker** / Docker Compose for containerization  
+- 🔒 Discogs API for data  
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🔧 Prerequisites
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Node.js** ≥18 (includes npm)  
+- **npm** (comes with Node)  
+- **Docker** & **docker-compose** _(optional, only for container workflows)_  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## ⚙️ Local Setup (Non-Docker)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Clone the repo**  
+   ```bash
+   git clone https://github.com/your-org/cogs.git
+   cd cogs
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. **Create your env file**
+   cp .env.example .env.local
+   then open .env.local and add your Discogs token:
+   DISCOGS_PERSONAL_TOKEN=YOUR_TOKEN_HERE
+
+3. **Install dependencies and run**
+   ```bash
+    npm install
+    npm run dev
+
+4. **Open http://localhost:3000 in your browser.**
+
+---
+
+## 🐋 Docker
+We support a multi-stage Docker build for production, plus a docker-compose.yml for dev with live-reload.
+
+1. Build the image
+    ```bash
+      docker build -t cogs-app .
+    ```
+  - Optionally pass your token at build-time instead of baking it in:
+    ```bash
+        docker build \
+        --build-arg DISCOGS_PERSONAL_TOKEN=$DISCOGS_PERSONAL_TOKEN \
+        -t cogs-app .
+    ```
+2. Run the container
+- Without extra flags (if your token is baked into the image):
+  ```bash
+  docker run -p 3000:3000 cogs-app
+  ```
+- With runtime env var (best practice—no secrets in image):
+
+  ```bash
+  docker run -p 3000:3000 \
+    -e DISCOGS_PERSONAL_TOKEN=$DISCOGS_PERSONAL_TOKEN \
+    cogs-app
+  ```
+3. browse to http://localhost:3000.
