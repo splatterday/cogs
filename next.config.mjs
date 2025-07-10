@@ -8,6 +8,7 @@ const nextConfig = {
     DISCOGS_PERSONAL_TOKEN: process.env.DISCOGS_PERSONAL_TOKEN,
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
