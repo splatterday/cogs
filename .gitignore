@@ -49,3 +49,4 @@ next-env.d.ts
 # Turborepo cache (if using Turborepo)
 .turbo/
 package-lock.json
+.env
