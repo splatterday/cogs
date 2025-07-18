@@ -1,28 +1,37 @@
-# --- STAGE 1: install & build ---
+# ─── Build stage ────────────────────────────────────────
 FROM node:18-alpine AS builder
+ARG DISCOGS_PERSONAL_TOKEN
+ARG DISCOGS_USERNAME
 WORKDIR /app
 
-# copy only the package manifests you actually have
+# 1) Install everything (including sass/postcss/tailwind)
 COPY package*.json ./
-
-# install exact deps
 RUN npm ci
 
-# copy the rest & build
+# 2) Make your token available at build time
+ENV DISCOGS_PERSONAL_TOKEN=${DISCOGS_PERSONAL_TOKEN}
+ENV DISCOGS_USERNAME=${DISCOGS_USERNAME}
+
+# 3) Copy source, build it (Tailwind/SCSS runs here)
 COPY . .
 RUN npm run build
 
-# --- STAGE 2: runtime image ---
-FROM node:18-alpine
+# ─── Runtime stage ──────────────────────────────────────
+FROM node:18-alpine AS runner
+ARG DISCOGS_PERSONAL_TOKEN
+ARG DISCOGS_USERNAME
 WORKDIR /app
 ENV NODE_ENV=production
 
+# 4) Only install production deps
 COPY package*.json ./
 RUN npm ci --only=production
 
-# bring in your build artifacts
+# 5) Bring in the compiled output and your token
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
+ENV DISCOGS_PERSONAL_TOKEN=${DISCOGS_PERSONAL_TOKEN}
+ENV DISCOGS_USERNAME=${DISCOGS_USERNAME}
 
 EXPOSE 3000
 CMD ["npm", "start"]

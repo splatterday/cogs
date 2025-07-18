@@ -2,7 +2,7 @@ import axios from "axios";
 import { Album, DiscogsSearchResponse } from "../types/discogs";
 
 const BASE_URL = "https://api.discogs.com";
-const USERNAME = process.env.NEXT_PUBLIC_DISCOGS_USERNAME!;
+const USERNAME = process.env.DISCOGS_USERNAME!;
 const TOKEN    = process.env.DISCOGS_PERSONAL_TOKEN!;
 const DEFAULT_HEADERS = { Authorization: `Discogs token=${TOKEN}` };
 
