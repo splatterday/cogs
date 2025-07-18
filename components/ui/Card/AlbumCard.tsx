@@ -63,7 +63,7 @@ export function AlbumCard({ item }: AlbumCardProps) {
       <div className="mb-2">
         {albumData && (
           <>
-            <h3 className="text-gray-800 dark:text-foreground font-semibold text-sm truncate max-w-<1/2>">
+            <h3 className="text-gray-800 dark:text-foreground font-semibold text-sm truncate max-w-[calc(100%-3rem)]">
               {albumData.album}
             </h3>
             <h4 className="text-gray-600 dark:text-foreground text-xs truncate">

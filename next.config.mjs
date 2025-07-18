@@ -6,6 +6,7 @@ import { hostname } from 'os';
 const nextConfig = {
   env: {
     DISCOGS_PERSONAL_TOKEN: process.env.DISCOGS_PERSONAL_TOKEN,
+    DISCOGS_USERNAME: process.env.DISCOGS_USERNAME,
   },
   images: {
     unoptimized: true,

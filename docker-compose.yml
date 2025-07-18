@@ -1,12 +1,12 @@
-version: '3.8'
 services:
   app:
-    build: .
+    build:
+      context: .
+      args:
+        DISCOGS_PERSONAL_TOKEN: ${DISCOGS_PERSONAL_TOKEN}
+        DISCOGS_USERNAME:       ${DISCOGS_USERNAME}
+    environment:
+      - DISCOGS_PERSONAL_TOKEN
+      - DISCOGS_USERNAME
     ports:
-      - '3000:3000'
-    env_file:
-      - .env.local
-    volumes:
-      - .:/app
-      - /app/node_modules
-    command: yarn dev
+      - "3000:3000"
